@@ -32,7 +32,7 @@ export default function AppPage() {
 
   return (
     <AppShell
-      ownerId={session.email}
+      ownerId={session.userId}
       onLogout={() => {
         logout();
         router.replace("/login");

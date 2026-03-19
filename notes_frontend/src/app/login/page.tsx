@@ -41,7 +41,7 @@ export default function LoginPage() {
         <header>
           <h1 className="retro-title text-xl">Sign In</h1>
           <p className="mt-2 text-sm retro-muted">
-            Offline-first device account. (Cloud endpoints may be added later; your notes still work offline.)
+            Sign in to sync across devices. If you’re offline, a local-only fallback is available.
           </p>
         </header>
 
@@ -73,7 +73,7 @@ export default function LoginPage() {
         </form>
 
         <div className="mt-4 retro-inset p-3 text-xs retro-muted">
-          Tip: Once signed in, everything is saved to IndexedDB for offline use.
+          Tip: Notes are always saved to IndexedDB for offline use; sync runs when online.
         </div>
       </section>
     </main>

@@ -2,7 +2,7 @@
 
 import React, { createContext, useCallback, useContext, useEffect, useMemo, useState } from "react";
 import { getStoredTheme, setStoredTheme, type Theme } from "@/lib/settings";
-import { clearSession, getSession, loginLocal, registerLocal } from "@/lib/auth";
+import { clearSession, getSession, login, register } from "@/lib/auth";
 import type { Session } from "@/lib/types";
 
 /** Toast types shown in the UI. */
@@ -93,7 +93,7 @@ export default function Providers({ children }: { children: React.ReactNode }) {
 
   const login = useCallback(
     async (email: string, password: string) => {
-      const s = await loginLocal(email, password);
+      const s = await login(email, password);
       setSession(s);
       setStatus("authenticated");
       addToast("success", "Welcome back!");
@@ -103,7 +103,7 @@ export default function Providers({ children }: { children: React.ReactNode }) {
 
   const register = useCallback(
     async (email: string, password: string) => {
-      const s = await registerLocal(email, password);
+      const s = await register(email, password);
       setSession(s);
       setStatus("authenticated");
       addToast("success", "Account created.");

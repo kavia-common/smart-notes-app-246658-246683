@@ -41,7 +41,7 @@ export default function RegisterPage() {
         <header>
           <h1 className="retro-title text-xl">Create Account</h1>
           <p className="mt-2 text-sm retro-muted">
-            This creates a secure local account on this device (salted SHA-256). Minimum 6 characters.
+            Create an account to enable cloud sync. If you’re offline, the app can fall back to a local-only account.
           </p>
         </header>
 
@@ -73,7 +73,7 @@ export default function RegisterPage() {
         </form>
 
         <div className="mt-4 retro-inset p-3 text-xs retro-muted">
-          You can use the app fully offline. Sync attempts can be enabled/disabled later in Settings.
+          You can use the app fully offline. Sync can be enabled/disabled later in Settings.
         </div>
       </section>
     </main>

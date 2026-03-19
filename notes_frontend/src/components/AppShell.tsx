@@ -6,6 +6,7 @@ import { createEmptyNote, listNotes, parseTags, seedDemoNotes, softDeleteNote, u
 import { cn, formatShortDate } from "@/lib/utils";
 import { enqueueDelete, enqueueUpsert, getQueueCount, startBackgroundSync, syncNow } from "@/lib/sync";
 import { getStoredSyncEnabled, getStoredTheme, setStoredSyncEnabled, setStoredTheme, type Theme } from "@/lib/settings";
+import { getRuntimeConfig } from "@/lib/runtimeConfig";
 import { Button } from "@/components/ui/Button";
 import { Input } from "@/components/ui/Input";
 import { Textarea } from "@/components/ui/Textarea";
@@ -54,6 +55,7 @@ export function AppShell({ ownerId, onLogout }: { ownerId: string; onLogout: () 
   const [syncStatus, setSyncStatus] = useState("—");
   const [queueCount, setQueueCount] = useState(0);
   const [conflicts, setConflicts] = useState<SyncConflict[]>([]);
+  const [apiBaseLabel, setApiBaseLabel] = useState("—");
 
   const disposerRef = useRef<null | (() => void)>(null);
 
@@ -91,6 +93,13 @@ export function AppShell({ ownerId, onLogout }: { ownerId: string; onLogout: () 
     const t = getStoredTheme();
     setThemeState(t);
     setSyncEnabled(getStoredSyncEnabled());
+  }, []);
+
+  useEffect(() => {
+    (async () => {
+      const cfg = await getRuntimeConfig();
+      setApiBaseLabel(cfg.apiBase || "—");
+    })();
   }, []);
 
   useEffect(() => {
@@ -569,8 +578,8 @@ export function AppShell({ ownerId, onLogout }: { ownerId: string; onLogout: () 
             description="When enabled, app will attempt to flush the offline queue when online. If the backend lacks endpoints, sync will pause automatically."
           />
           <div className="retro-inset p-3 text-xs retro-muted">
-            Tip: This frontend is fully usable offline via IndexedDB. Sync is best-effort and
-            will quietly pause if the backend does not implement the expected notes endpoints yet.
+            Tip: This frontend is fully usable offline via IndexedDB. When online and signed in with cloud auth,
+            sync pushes your offline queue and pulls updates from the backend.
           </div>
         </div>
       </Modal>
@@ -599,7 +608,7 @@ export function AppShell({ ownerId, onLogout }: { ownerId: string; onLogout: () 
             <div className="mt-2 text-xs retro-muted">
               API base:{" "}
               <span className="font-mono">
-                {(process.env.NEXT_PUBLIC_API_BASE || process.env.NEXT_PUBLIC_BACKEND_URL || "—").toString()}
+                {apiBaseLabel}
               </span>
             </div>
           </div>
